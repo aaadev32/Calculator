@@ -1,0 +1,20 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+#calculator-screen{
+
+    border: 2px solid grey;
+    width: 200px;
+    height: 15px;
+}
+
+#calculator-numbers-buttons{
+    display: grid;
+
+}
+
+#calculator-operands-buttons{
+    display: grid;
+}
