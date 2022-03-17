@@ -7,14 +7,11 @@ body{
 
     border: 2px solid grey;
     width: 200px;
-    height: 15px;
+    height: 19px;
 }
 
-#calculator-numbers-buttons{
+#calculator-buttons{
     display: grid;
-
+	grid-template-columns: 50px 50px 50px;
 }
 
-#calculator-operands-buttons{
-    display: grid;
-}
