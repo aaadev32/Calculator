@@ -3,6 +3,7 @@ const buttons = document.querySelectorAll('button');
 const operatorButtons = document.getElementsByClassName('operator-buttons');
 const operandButtons = document.getElementsByClassName('operand-buttons');
 const clearButton = document.getElementById('clear-button');
+const equalsButton = document.getElementById('equals-button');
 let calculation = {};
 //displayValue is global to carry the value for screenDisplay until displaying output or clearing screen
 let displayValue = null;
@@ -36,25 +37,27 @@ function divide(num1, num2) {
 
   return result;
 
-}
+};
 
 function operate(operator, num1, num2) {
 
+	let result = null;
+
   if (operator == '+') {
 
-    add(num1, num2);
+    result = add(num1, num2);
 
   } else if (operator == '-') {
 
-    subtract(num1, num2);
+    result = subtract(num1, num2);
 
   } else if (operator == '*') {
 
-    multiply(num1, num2);
+    result = multiply(num1, num2);
 
   } else if (operator == '/') {
 
-    divide(num1, num2);
+    result = divide(num1, num2);
 
   }
 
@@ -72,16 +75,20 @@ function populateDisplay(num) {
 }
 
 function clearScreen(){
-	let result = '';
-	populateDisplay(result);
+	let temp = screen.textContent = '';
+	let result = populateDisplay(temp);
+	return result;
 }
 
+//will need to make all the 'button' args in my if statements refer to respective button functions.
 Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
 	let event = null;
 	let selected = button;
 	let temp = null;
-   
+	let operator = null;
+	
+	console.log(selected);
 	event = button.textContent;
 	temp = event;
 	
@@ -90,18 +97,29 @@ Array.from(buttons).forEach(button => {
 	}
 	
     populateDisplay(event);
-	console.log(temp);//its almost as if i cannot concatenate temp because the script "forgets" after executing once. figure out tomorrow 3/17/22
+	console.log(temp);
 	
-	if(button == operatorButtons){
+	if(button == operandButtons){
 		
-		calculation.num1 = parseInt(temp)
-		//add num1 to calculation object
+		calculation.num1 = parseInt(temp);
 		temp = '';
-		//i need to make this create a num2 variable somehow to distinguish between the users operands
 		
-	}else if (selected == clearButton){
+	}else if(button == operandButtons && calculation.num1 == true){ 
+		
+		calculation.num2 = parseInt(temp);
+		temp = '';
+		
+	}else if(button == operatorButtons) {
+		
+		operator = button;
+		
+	}else if(selected == clearButton){
 		
 		clearScreen();
+		
+	}else if (selected == equalsButton){
+		
+		operate(operator, calculation.num1, calculation.num2);
 		
 	}
 	

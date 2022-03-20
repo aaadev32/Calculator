@@ -12,6 +12,7 @@ body{
 
 #calculator-buttons{
     display: grid;
-	grid-template-columns: 50px 50px 50px;
+	grid-template-columns: 50px 50px 50px 50px;
+	margin: 1px;
 }
 
