@@ -4,9 +4,13 @@ const operatorButtons = document.getElementsByClassName('operator-buttons');
 const operandButtons = document.getElementsByClassName('operand-buttons');
 const clearButton = document.getElementById('clear-button');
 const equalsButton = document.getElementById('equals-button');
+const textOperators = ['+', '-', '+', '/'];
 let calculation = {};
-//displayValue is global to carry the value for screenDisplay until displaying output or clearing screen
 let displayValue = null;
+let temp = '';
+let event = null;
+let operator = null;
+
 
 function add(num1, num2) {
 
@@ -39,28 +43,28 @@ function divide(num1, num2) {
 
 };
 
+
 function operate(operator, num1, num2) {
 
 	let result = null;
 
-  if (operator == '+') {
+  if(operator == '+') {
 
     result = add(num1, num2);
 
-  } else if (operator == '-') {
+  }else if (operator == '-') {
 
     result = subtract(num1, num2);
 
-  } else if (operator == '*') {
+  }else if (operator == '*') {
 
     result = multiply(num1, num2);
 
-  } else if (operator == '/') {
+  }else if (operator == '/') {
 
     result = divide(num1, num2);
 
   }
-
 
   return result;
 
@@ -75,55 +79,46 @@ function populateDisplay(num) {
 }
 
 function clearScreen(){
-	let temp = screen.textContent = '';
-	let result = populateDisplay(temp);
+	let temp2 = screen.textContent = '';
+	let result = populateDisplay(temp2);
 	return result;
 }
 
 //will need to make all the 'button' args in my if statements refer to respective button functions.
 Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
-	let event = null;
-	let selected = button;
-	let temp = null;
-	let operator = null;
 	
-	console.log(selected);
+
 	event = button.textContent;
-	temp = event;
 	
-	if(temp != null){
-		temp.concat(event);
-	}
 	
     populateDisplay(event);
-	console.log(temp);
-	
-	if(button == operandButtons){
+    if(button == operandButtons){
 		
+		console.log(temp);
+		temp += event;
+		
+	}else if(button == operatorButtons){ //when operator buttons class is chosen this trigger doesnt work
+		
+		operator = button.textContent;
 		calculation.num1 = parseInt(temp);
+		calculation.operators = operator;
 		temp = '';
 		
-	}else if(button == operandButtons && calculation.num1 == true){ 
+	}else if(button == equalsButton){ 
 		
 		calculation.num2 = parseInt(temp);
+		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2));
 		temp = '';
 		
-	}else if(button == operatorButtons) {
-		
-		operator = button;
-		
-	}else if(selected == clearButton){
+	}else if(button == clearButton){
 		
 		clearScreen();
-		
-	}else if (selected == equalsButton){
-		
-		operate(operator, calculation.num1, calculation.num2);
+		calculation = {};
+		temp = '';
 		
 	}
-	
+	console.log(calculation);
 	});
  
 });
-
