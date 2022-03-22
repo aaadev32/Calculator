@@ -1,15 +1,16 @@
 const screen = document.getElementById('calculator-screen');
 const buttons = document.querySelectorAll('button');
-const operatorButtons = document.getElementsByClassName('operator-buttons');
-const operandButtons = document.getElementsByClassName('operand-buttons');
 const clearButton = document.getElementById('clear-button');
 const equalsButton = document.getElementById('equals-button');
-const textOperators = ['+', '-', '+', '/'];
-let calculation = {};
 let displayValue = null;
 let temp = '';
 let event = null;
 let operator = null;
+let calculation = {
+	operators: '',
+	num1:'',
+	num2:'',
+	};
 
 
 function add(num1, num2) {
@@ -45,28 +46,30 @@ function divide(num1, num2) {
 
 
 function operate(operator, num1, num2) {
-
+	
+	let temp = null;
 	let result = null;
 
   if(operator == '+') {
 
-    result = add(num1, num2);
+    temp = add(num1, num2);
 
   }else if (operator == '-') {
 
-    result = subtract(num1, num2);
+    temp = subtract(num1, num2);
 
   }else if (operator == '*') {
 
-    result = multiply(num1, num2);
+    temp = multiply(num1, num2);
 
   }else if (operator == '/') {
 
-    result = divide(num1, num2);
+    temp = divide(num1, num2);
+    
 
   }
-
-  return result;
+	result = temp.toFixed(2);
+	return result;
 
 }
 
@@ -84,26 +87,25 @@ function clearScreen(){
 	return result;
 }
 
-//will need to make all the 'button' args in my if statements refer to respective button functions.
 Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
+	let container = null;
 	
-
 	event = button.textContent;
 	
 	
     populateDisplay(event);
-    if(button == operandButtons){
-		
-		console.log(temp);
-		temp += event;
-		
-	}else if(button == operatorButtons){ //when operator buttons class is chosen this trigger doesnt work
+    if(button.className == 'operator-buttons'){ //when operator buttons class is chosen this trigger doesnt work
 		
 		operator = button.textContent;
 		calculation.num1 = parseInt(temp);
 		calculation.operators = operator;
 		temp = '';
+		
+	}else if(button.className == 'operand-buttons'){//this one doesnt work either
+		
+		console.log(temp);
+		temp += event;
 		
 	}else if(button == equalsButton){ 
 		
