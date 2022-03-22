@@ -6,11 +6,7 @@ let displayValue = null;
 let temp = '';
 let event = null;
 let operator = null;
-let calculation = {
-	operators: '',
-	num1:'',
-	num2:'',
-	};
+let calculation = {};
 
 
 function add(num1, num2) {
@@ -63,10 +59,14 @@ function operate(operator, num1, num2) {
     temp = multiply(num1, num2);
 
   }else if (operator == '/') {
-
-    temp = divide(num1, num2);
+	
+	if(num1 == 0 || num2 == 0){
+		
+		return alert('error, cannot divide from 0');
+		
+	}
+	temp = divide(num1, num2);
     
-
   }
 	result = temp.toFixed(2);
 	return result;
@@ -91,8 +91,8 @@ Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
 	let container = null;
 	
-	event = button.textContent;
 	
+	event = button.textContent;
 	
     populateDisplay(event);
     if(button.className == 'operator-buttons'){ //when operator buttons class is chosen this trigger doesnt work
@@ -124,3 +124,6 @@ Array.from(buttons).forEach(button => {
 	});
  
 });
+
+//make the num1 and num2 values calculate when they are populated and save the output in a variable
+//so that a user may input multiple arithmatic arguments such as 39 - 20 + 123 / 4
