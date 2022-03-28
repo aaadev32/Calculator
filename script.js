@@ -69,7 +69,12 @@ function operate(operator, num1, num2) {
 		
 	}
 	temp = divide(num1, num2);
-    result = temp.toFixed(2);
+	
+    result = temp
+    
+    if (result % 1 != 0){
+		result = temp.toFixed(2)
+	}
     return result;
   }
 	result = temp;
@@ -114,13 +119,13 @@ Array.from(buttons).forEach(button => {
 		}
 		
 //this if statement will chain operator operand pairings indefinitley
-		if(calculation.sum != undefined){
+		if(calculation.sum != undefined && i != 2){
 			calculation.num1 = calculation.sum;
 			calculation.num2 = parseInt(temp);
-			calculation.operators = button.textContent;
 			calculation.sum = operate(calculation.operators, calculation.num1, calculation.num2); 
+			calculation.operators = button.textContent;
 //this else if statement will only run for the first operator operand pairing allowing you to chain operator operand arguments indefinitley
-		}else if(calculation.sum == undefined){
+		}else if(calculation.sum == undefined && i == 1){
 			calculation.num1 = parseInt(temp);
 			calculation.operators = button.textContent;
 		}
@@ -141,6 +146,11 @@ Array.from(buttons).forEach(button => {
 		calculation.num2 = parseInt(temp);
 		//clearScreen();
 		populateDisplay(' ');
+		
+		if(calculation.sum != undefined){
+			calculation.num1 = calculation.sum;
+		}
+		
 		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); //maybe add calculationSum not sure yet
 		populateDisplay(' ');
 		calculation = {};
