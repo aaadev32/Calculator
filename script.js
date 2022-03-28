@@ -2,11 +2,14 @@ const screen = document.getElementById('calculator-screen');
 const buttons = document.querySelectorAll('button');
 const clearButton = document.getElementById('clear-button');
 const equalsButton = document.getElementById('equals-button');
+
 let displayValue = null;
 let temp = '';
 let event = null;
 let operator = null;
 let calculation = {};
+let i = 1;
+
 
 
 function add(num1, num2) {
@@ -66,9 +69,10 @@ function operate(operator, num1, num2) {
 		
 	}
 	temp = divide(num1, num2);
-    
+    result = temp.toFixed(2);
+    return result;
   }
-	result = temp.toFixed(2);
+	result = temp;
 	return result;
 
 }
@@ -89,41 +93,73 @@ function clearScreen(){
 
 Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
-	let container = null;
-	
-	
 	event = button.textContent;
 	
-    populateDisplay(event);
-    if(button.className == 'operator-buttons'){ //when operator buttons class is chosen this trigger doesnt work
+    
+    if(button.className == 'operator-buttons'){
+	
+	populateDisplay(' ');
+	populateDisplay(event);
+//if the user doesnt input an operand before the operator this if block makes the first operand equal 0
+		if(temp == ''){
+			temp = 0;
+		}
 		
-		operator = button.textContent;
-		calculation.num1 = parseInt(temp);
-		calculation.operators = operator;
+		
+//this if block is only used once when acquiring the 2nd operand
+		if(i == 2){
+			calculation.num2 = parseInt(temp);
+			calculation.sum = operate(calculation.operators, calculation.num1, calculation.num2); 
+			calculation.operators = button.textContent;
+		}
+		
+//this if statement will chain operator operand pairings indefinitley
+		if(calculation.sum != undefined){
+			calculation.num1 = calculation.sum;
+			calculation.num2 = parseInt(temp);
+			calculation.operators = button.textContent;
+			calculation.sum = operate(calculation.operators, calculation.num1, calculation.num2); 
+//this else if statement will only run for the first operator operand pairing allowing you to chain operator operand arguments indefinitley
+		}else if(calculation.sum == undefined){
+			calculation.num1 = parseInt(temp);
+			calculation.operators = button.textContent;
+		}
+	
+		populateDisplay(' ');
+		i++
 		temp = '';
+//adds button input to temp if a number
+	}else if(button.className == 'operand-buttons'){
 		
-	}else if(button.className == 'operand-buttons'){//this one doesnt work either
-		
+		populateDisplay(event);
 		console.log(temp);
 		temp += event;
-		
+//performs the calculation when the equals button is used
 	}else if(button == equalsButton){ 
-		
+		populateDisplay(' ');
+		populateDisplay(event);
 		calculation.num2 = parseInt(temp);
-		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2));
+		//clearScreen();
+		populateDisplay(' ');
+		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); //maybe add calculationSum not sure yet
+		populateDisplay(' ');
+		calculation = {};
 		temp = '';
-		
+		i = 1;
+//clears the display
 	}else if(button == clearButton){
 		
+		populateDisplay(event);
 		clearScreen();
 		calculation = {};
 		temp = '';
+		i = 1;
 		
 	}
 	console.log(calculation);
 	});
  
 });
-
-//make the num1 and num2 values calculate when they are populated and save the output in a variable
-//so that a user may input multiple arithmatic arguments such as 39 - 20 + 123 / 4
+//when chaining operator operand pairings the calculation does not use the previous operator but the operator in the current event 
+//when calculating calculation.sum
+// or maybe i have no idea but some funky shit is happening with the way the calulation object and operate are interacting
