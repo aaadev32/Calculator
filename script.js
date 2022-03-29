@@ -2,13 +2,16 @@ const screen = document.getElementById('calculator-screen');
 const buttons = document.querySelectorAll('button');
 const clearButton = document.getElementById('clear-button');
 const equalsButton = document.getElementById('equals-button');
+const deleteButton = document.getElementById('delete');
 
 let displayValue = null;
 let temp = '';
 let event = null;
 let operator = null;
-let calculation = {};
 let i = 1;
+let calculation = {
+	textsum: ''
+	};
 
 
 
@@ -96,10 +99,16 @@ function clearScreen(){
 	return result;
 }
 
+function deleteLastChar(str){//havent tested yet due to unfinished event listener causing errors
+	str.pop();
+	return str;
+}
+
 Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
-	event = button.textContent;
 	
+	event = button.textContent;
+    calculation.textsum += event;
     
     if(button.className == 'operator-buttons'){
 	
@@ -151,9 +160,11 @@ Array.from(buttons).forEach(button => {
 			calculation.num1 = calculation.sum;
 		}
 		
-		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); //maybe add calculationSum not sure yet
+		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); 
 		populateDisplay(' ');
-		calculation = {};
+		calculation = {
+			textsum: ''
+			};
 		temp = '';
 		i = 1;
 //clears the display
@@ -161,14 +172,71 @@ Array.from(buttons).forEach(button => {
 		
 		populateDisplay(event);
 		clearScreen();
-		calculation = {};
+		calculation = {
+			textsum: ''
+			};
 		temp = '';
 		i = 1;
 		
+	}else if(button == deleteButton){
+		let string = temp
+		
+		temp = temp.slice(0, -1);
+		string = string.slice(0, -1);
+		calculation.textsum = string;
+		clearScreen();
+		populateDisplay(calculation.textsum);
 	}
 	console.log(calculation);
 	});
- 
+	
+});
+
+//keyboard event listener allows inputs using keyboard
+window.addEventListener('keydown', function(e) {
+	const keys = document.querySelectorAll(`button[data-key='${e.keyCode}']`);
+	if(!keys){
+		return;
+	}
+	
+	if(event.keyCode === 49){
+		document.querySelectory('data-key="49"').click();
+	}else if(event.keyCode === 50){
+		document.querySelectory('data-key="50"').click();
+	}else if(event.keyCode === 51){
+		document.querySelectory('data-key="51"').click();
+	}else if(event.keyCode === 52){
+		document.querySelectory('data-key="52"').click();
+	}else if(event.keyCode === 53){
+		document.querySelectory('data-key="53"').click();
+	}else if(event.keyCode === 54){
+		document.querySelectory('data-key="54"').click();
+	}else if(event.keyCode === 55){
+		document.querySelectory('data-key="55"').click();
+	}else if(event.keyCode === 56){
+		document.querySelectory('data-key="56"').click();
+	}else if(event.keyCode === 57){
+		document.querySelectory('data-key="57"').click();
+	}else if(event.keyCode === 42){
+		document.querySelectory('data-key="42"').click();
+	}else if(event.keyCode === 43){
+		document.querySelectory('data-key="43"').click();
+	}else if(event.keyCode === 48){
+		document.querySelectory('data-key="48"').click();
+	}else if(event.keyCode === 49){
+		document.querySelectory('data-key="49"').click();
+	}else if(event.keyCode === 61){
+		document.querySelectory('data-key="61"').click();
+	}else if(event.keyCode === 67){
+		document.querySelectory('data-key="67"').click();
+	}else if(event.keyCode === 173){
+		document.querySelectory('data-key="173"').click();
+	}else if(event.keyCode === 191){
+		document.querySelectory('data-key="191"').click();
+	}else if(event.keyCode === 8){
+		document.querySelectory('data-key="8"').click();
+	}
+	
 });
 //when chaining operator operand pairings the calculation does not use the previous operator but the operator in the current event 
 //when calculating calculation.sum

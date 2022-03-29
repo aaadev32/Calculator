@@ -1,6 +1,7 @@
 body{
     display: flex;
     flex-direction: column;
+    background-color: rgb(247,234, 134);
 }
 
 #calculator-screen{
