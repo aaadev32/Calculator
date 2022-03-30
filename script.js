@@ -94,14 +94,15 @@ function populateDisplay(num) {
 }
 
 function clearScreen(){
-	let temp2 = screen.textContent = '';
-	let result = populateDisplay(temp2);
+	let tempClear = screen.textContent = '';
+	let result = populateDisplay(tempClear);
 	return result;
 }
 
-function deleteLastChar(str){//havent tested yet due to unfinished event listener causing errors
-	str.pop();
-	return str;
+function eventClicker(key){
+	let eventButton = '';
+	eventButton = document.querySelector(`button[data-key="${key}"]`);
+	eventButton.click();
 }
 
 Array.from(buttons).forEach(button => {
@@ -150,6 +151,14 @@ Array.from(buttons).forEach(button => {
 		temp += event;
 //performs the calculation when the equals button is used
 	}else if(button == equalsButton){ 
+		
+		//when an operand with no operators or opposing operands this returns the input
+		if ( calculation.num1 == undefined && calculation.num2 == undefined){
+			
+			populateDisplay(` ${event} ${temp} `);
+			
+			return 0;
+		}
 		populateDisplay(' ');
 		populateDisplay(event);
 		calculation.num2 = parseInt(temp);
@@ -162,11 +171,9 @@ Array.from(buttons).forEach(button => {
 		
 		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); 
 		populateDisplay(' ');
-		calculation = {
-			textsum: ''
-			};
-		temp = '';
+
 		i = 1;
+		
 //clears the display
 	}else if(button == clearButton){
 		
@@ -178,16 +185,17 @@ Array.from(buttons).forEach(button => {
 		temp = '';
 		i = 1;
 		
-	}else if(button == deleteButton){
-		let string = temp
+	}else if(button == deleteButton){ //removed html
+		let string = calculation.textsum;
 		
 		temp = temp.slice(0, -1);
 		string = string.slice(0, -1);
 		calculation.textsum = string;
 		clearScreen();
-		populateDisplay(calculation.textsum);
+		populateDisplay(string);
 	}
 	console.log(calculation);
+	console.log(operate(calculation.operators, calculation.num1, calculation.num2));
 	});
 	
 });
@@ -199,45 +207,10 @@ window.addEventListener('keydown', function(e) {
 		return;
 	}
 	
-	if(event.keyCode === 49){
-		document.querySelectory('data-key="49"').click();
-	}else if(event.keyCode === 50){
-		document.querySelectory('data-key="50"').click();
-	}else if(event.keyCode === 51){
-		document.querySelectory('data-key="51"').click();
-	}else if(event.keyCode === 52){
-		document.querySelectory('data-key="52"').click();
-	}else if(event.keyCode === 53){
-		document.querySelectory('data-key="53"').click();
-	}else if(event.keyCode === 54){
-		document.querySelectory('data-key="54"').click();
-	}else if(event.keyCode === 55){
-		document.querySelectory('data-key="55"').click();
-	}else if(event.keyCode === 56){
-		document.querySelectory('data-key="56"').click();
-	}else if(event.keyCode === 57){
-		document.querySelectory('data-key="57"').click();
-	}else if(event.keyCode === 42){
-		document.querySelectory('data-key="42"').click();
-	}else if(event.keyCode === 43){
-		document.querySelectory('data-key="43"').click();
-	}else if(event.keyCode === 48){
-		document.querySelectory('data-key="48"').click();
-	}else if(event.keyCode === 49){
-		document.querySelectory('data-key="49"').click();
-	}else if(event.keyCode === 61){
-		document.querySelectory('data-key="61"').click();
-	}else if(event.keyCode === 67){
-		document.querySelectory('data-key="67"').click();
-	}else if(event.keyCode === 173){
-		document.querySelectory('data-key="173"').click();
-	}else if(event.keyCode === 191){
-		document.querySelectory('data-key="191"').click();
-	}else if(event.keyCode === 8){
-		document.querySelectory('data-key="8"').click();
-	}
+	eventClicker(e.keyCode);
+	
+	console.log(e);
 	
 });
-//when chaining operator operand pairings the calculation does not use the previous operator but the operator in the current event 
-//when calculating calculation.sum
-// or maybe i have no idea but some funky shit is happening with the way the calulation object and operate are interacting
+
+
