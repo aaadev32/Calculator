@@ -9,9 +9,8 @@ let temp = '';
 let event = null;
 let operator = null;
 let i = 1;
-let calculation = {
-	textsum: ''
-	};
+let clearTrigger = 0;
+let calculation = {};
 
 
 
@@ -109,7 +108,12 @@ Array.from(buttons).forEach(button => {
   button.addEventListener('click', () => {
 	
 	event = button.textContent;
-    calculation.textsum += event;
+    
+    //makes sure screen is cleared when output is received and user is inputting new operands.
+    if(clearTrigger == 1){
+		clearScreen();
+		clearTrigger = 0;
+	}
     
     if(button.className == 'operator-buttons'){
 	
@@ -169,19 +173,20 @@ Array.from(buttons).forEach(button => {
 			calculation.num1 = calculation.sum;
 		}
 		
+		clearScreen();
 		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); 
 		populateDisplay(' ');
-
+		calculation = {};
+		temp = '';
 		i = 1;
+		clearTrigger = 1;
 		
 //clears the display
 	}else if(button == clearButton){
 		
 		populateDisplay(event);
 		clearScreen();
-		calculation = {
-			textsum: ''
-			};
+		calculation = {};
 		temp = '';
 		i = 1;
 		
