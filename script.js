@@ -109,7 +109,7 @@ Array.from(buttons).forEach(button => {
 	
 	event = button.textContent;
     
-    //makes sure screen is cleared when output is received and user is inputting new operands.
+ //makes sure screen is cleared when output is received and user is inputting new operands.
     if(clearTrigger == 1){
 		clearScreen();
 		clearTrigger = 0;
@@ -157,7 +157,7 @@ Array.from(buttons).forEach(button => {
 	}else if(button == equalsButton){ 
 		
 
-		//when an operand with no operators or opposing operands this returns the input
+//when an operand with no operators or opposing operands this returns the input
 		if (calculation.num1 == undefined && calculation.num2 == undefined){
 			
 			populateDisplay(` ${event} ${temp} `);
@@ -167,13 +167,12 @@ Array.from(buttons).forEach(button => {
 		populateDisplay(' ');
 		populateDisplay(event);
 		calculation.num2 = parseInt(temp);
-		//clearScreen();
 		populateDisplay(' ');
 		
 		if(calculation.sum != undefined){
 			calculation.num1 = calculation.sum;
 		}
-		//shows user error if only one operand was received
+//shows user error if only one operand was received
 		if(calculation.num1 == NaN || calculation.num2 == NaN){
 			alert('error, no second operand');
 		}		
