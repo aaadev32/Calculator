@@ -14,8 +14,6 @@ body{
 #description{
 	align-items: center;
     align-self: center;
-    border: 20px solid blue;
-    width: 300px;
     color: white;
 }
 
