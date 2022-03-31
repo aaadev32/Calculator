@@ -156,8 +156,9 @@ Array.from(buttons).forEach(button => {
 //performs the calculation when the equals button is used
 	}else if(button == equalsButton){ 
 		
+
 		//when an operand with no operators or opposing operands this returns the input
-		if ( calculation.num1 == undefined && calculation.num2 == undefined){
+		if (calculation.num1 == undefined && calculation.num2 == undefined){
 			
 			populateDisplay(` ${event} ${temp} `);
 			
@@ -172,9 +173,14 @@ Array.from(buttons).forEach(button => {
 		if(calculation.sum != undefined){
 			calculation.num1 = calculation.sum;
 		}
-		
+		//shows user error if only one operand was received
+		if(calculation.num1 == NaN || calculation.num2 == NaN){
+			alert('error, no second operand');
+		}		
 		clearScreen();
 		populateDisplay(operate(calculation.operators, calculation.num1, calculation.num2)); 
+		
+		
 		populateDisplay(' ');
 		calculation = {};
 		temp = '';
@@ -206,7 +212,7 @@ Array.from(buttons).forEach(button => {
 });
 
 //keyboard event listener allows inputs using keyboard
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keypress', function(e) {
 	const keys = document.querySelectorAll(`button[data-key='${e.keyCode}']`);
 	if(!keys){
 		return;
@@ -217,5 +223,6 @@ window.addEventListener('keydown', function(e) {
 	console.log(e);
 	
 });
+
 
 

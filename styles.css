@@ -1,25 +1,27 @@
 body{
-    display: flex;
-    flex-direction: column;
     background-color: rgb(247,234, 134);
 }
 
+#calculator-container{
+display: flex;
+flex-direction: column;
+
+}
+
 #calculator-screen{
-    border: 2px solid grey;
+	align-self: center;
+    border: 1px solid grey;
     width: 200px;
     height: 19px;
     background-color: rgb(9, 214, 43);
-    
 }
 
 #calculator-buttons{
     display: grid;
+    justify-content: center;
 	grid-template-columns: 50px 50px 50px 50px;
 	margin: 1px;
 	
 }
 
-#calculator-buttons-border{
-
-}
 
